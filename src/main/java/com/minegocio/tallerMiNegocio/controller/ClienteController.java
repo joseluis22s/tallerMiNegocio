@@ -23,14 +23,14 @@ import com.minegocio.tallerMiNegocio.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/clientes")
 @RequiredArgsConstructor
 @Validated
 
 public class ClienteController {
     private final ClienteService clienteService;
 
-    @GetMapping("/clientes")
+    @GetMapping("/allclientes")
     public ResponseEntity<List<Cliente>> getAllClientes(){
         return ResponseEntity.ok().body(clienteService.getAllClientes());
     }
@@ -45,7 +45,7 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteService.saveCliente(cliente));
     }
 
-    @PutMapping("path/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Cliente> updatedCliente(@RequestBody Cliente cliente) {
         return ResponseEntity.ok().body(clienteService.updateCliente(cliente));
     }
