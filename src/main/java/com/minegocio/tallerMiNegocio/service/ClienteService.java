@@ -1,13 +1,15 @@
 package com.minegocio.tallerMiNegocio.service;
 
-import com.minegocio.tallerMiNegocio.entity.Cliente;
-import com.minegocio.tallerMiNegocio.repository.ClienteRepo;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.minegocio.tallerMiNegocio.entity.Cliente;
+import com.minegocio.tallerMiNegocio.repository.ClienteRepo;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service layer is where all the business logic lies
