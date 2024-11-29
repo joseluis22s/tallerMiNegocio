@@ -45,7 +45,7 @@ public class ClienteService {
         Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
         if(existingCliente.isPresent()){
             Cliente updatedCliente = clienteRepo.save(cliente);
-            log.info("Clienet con ID: {} actualizado correctamente", cliente.getId());
+            log.info("Cliente con ID: {} actualizado correctamente", cliente.getId());
             return updatedCliente;
         }
 
