@@ -5,43 +5,41 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Clase entity que representa la tabla "CLIENTE" de la BD
+ * Clase entity que representa la tabla "DIRECCION_CLIENTE" de la BD
  */
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data                               // Genera getters y setter
 @Entity                             // Define a una clase como una entidad de la BD
-@Table(name = "\"CLIENTE\"", schema="\"schTallerMiNegocio\"")
-
-public class Cliente {
-
+@Table(name="\"DIRECCION_CLIENTE\"", schema="\"schTallerMiNegocio\"")
+public class DireccionCliente {
+    
     @Id
     @Column(name="\"ID\"")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @OneToMany(mappedBy="CLIENTE")
     private Integer id;
 
-    @Column(name="\"NUMERO_IDENTIFICACION\"")
-    private String numero_identificacion;
+    @Column(name="\"PROVINCIA\"")
+    private String provincia;
 
-    @Column(name="\"TIPO_IDENTIFICACION\"")
-    private String tipo_identificacion;
+    @Column(name="\"CIUDAD\"")
+    private String ciudad;
 
-    @Column(name="\"NOMBRES\"")
-    private String nombres;
+    @Column(name="\"DIRECCION\"")
+    private String direccion;
 
-    @Column(name="\"CORREO\"")
-    private String correo;
-
-    @Column(name="\"NUMERO_CELULAR\"")
-    private String numero_celular;
+    @ManyToOne
+    @JoinColumn(name="\"ID_CLIENTE\"")
+    // @Column(name="\"ID_CLIENTE\"")
+    private Integer id_cliente;
 
 }

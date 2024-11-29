@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RestController                             // Define que la clase es un controlador para manejar un servicio
 @RequestMapping("/clientes")                // Mapea un grupo de para la API
 @RequiredArgsConstructor                    // Contructor para manejar dependencias 
-@Validated                                  // Manejar los argumentos de un método
+@Validated                                  // Manejar/validar los argumentos de un método
 
 /*
  * Clase controller a la que accede el cliente (solicitudes). Realiza un método en función de la URL.
@@ -32,7 +32,7 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     /*
-     * Método de solicitud GET. Recupera todos los clientes de la tabla "CLIENTES".
+     * Método de solicitud GET. Recupera todos los clientes de la tabla "CLIENTE".
      * URL: localhost:8080/clientes/allclientes
      * @return List<Cliente>
      */
@@ -42,7 +42,7 @@ public class ClienteController {
     }
     
     /*
-     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTES", con el ID proporcionado.
+     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
      * URL: localhost:8080/clientes/{id}
      * @return Cliente
      */
@@ -52,7 +52,7 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTES". ID autoincremental.
+     * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * URL: localhost:8080/clientes
      * @return Cliente (guardado)
      */
@@ -62,8 +62,8 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTES" con el objeto Cliente proporcionado
-     * URL: localhost:8080/clientes/{id}
+     * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTE" con el objeto Cliente proporcionado
+     * URL: localhost:8080/clientes/upt
      * @return Cliente (actualizado)
      */
     @PutMapping("/upt")
@@ -72,8 +72,8 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTES" con el ID proporcinado
-     * URL: localhost:8080/clientes
+     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTE" con el ID proporcinado
+     * URL: localhost:8080/clientes/dlt/{id}"
      * @return String (Mensaje de eliminación)
      */
     @DeleteMapping("/dlt/{id}")

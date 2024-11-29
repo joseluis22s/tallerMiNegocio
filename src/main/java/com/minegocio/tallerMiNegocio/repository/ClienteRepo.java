@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.minegocio.tallerMiNegocio.entity.Cliente;
 
 /**
- * Repository is an interface that provides access to data in a database
+ * Repositorio es la interface (punto de conexión) que da acceso a los datros de la BD.
+ * Repositorio para acceso a los datos de la tabla "CLIENTE"
  */
 
 public interface ClienteRepo extends JpaRepository<Cliente, Integer>{

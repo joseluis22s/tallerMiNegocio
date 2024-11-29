@@ -24,7 +24,7 @@ public class ClienteService {
     private final ClienteRepo clienteRepo;
     
     /*
-     * Recupera todos los clientes de la tabla "CLIENTES".
+     * Recupera todos los clientes de la tabla "CLIENTE".
      * @return List<Cliente>
      */
     public List<Cliente> getAllClientes(){
@@ -32,7 +32,7 @@ public class ClienteService {
     }
 
     /*
-     * Recupera un cliente de la tabla "CLIENTES", con el ID proporcionado.
+     * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
      * @return Cliente
      */
     public Cliente getClienteById(Integer id){
@@ -45,7 +45,7 @@ public class ClienteService {
     }
 
     /*
-     * Guarda un cliente en la tabla "CLIENTES". ID autoincremental.
+     * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * @return Cliente (guardado)
      */
     public Cliente saveCliente (Cliente cliente){
@@ -55,7 +55,7 @@ public class ClienteService {
     }
 
     /*
-     * Actualiza un cliente en la tabla "CLIENTES".
+     * Actualiza un cliente en la tabla "CLIENTE".
      * @return Cliente (actualizado) | null(si no existe el registro)
      */
     public Cliente updateCliente (Cliente cliente){        
@@ -70,7 +70,7 @@ public class ClienteService {
     }
 
     /*
-     * Elimina un cliente en la tabla "CLIENTES".
+     * Elimina un cliente en la tabla "CLIENTE".
      */
     public void deleteClienteById (Integer id){
         clienteRepo.deleteById(id);
