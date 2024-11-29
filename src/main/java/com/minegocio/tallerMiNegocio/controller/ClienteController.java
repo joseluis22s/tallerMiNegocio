@@ -18,13 +18,13 @@ import com.minegocio.tallerMiNegocio.service.ClienteService;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController                             // Define que la clase es un controlador
+@RestController                             // Define que la clase es un controlador para manejar un servicio
 @RequestMapping("/clientes")                // Mapea un grupo de para la API
 @RequiredArgsConstructor                    // Contructor para manejar dependencias 
 @Validated                                  // Manejar los argumentos de un método
 
-/**
- * Clase controller a la que accede el cliente (solicitudes). Realiza un método en función de la URL
+/*
+ * Clase controller a la que accede el cliente (solicitudes). Realiza un método en función de la URL.
  */
 
 public class ClienteController {
@@ -32,7 +32,7 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     /*
-     * Método de solicitud GET. Recupera todos los clientes de la tabla "CLIENTES"
+     * Método de solicitud GET. Recupera todos los clientes de la tabla "CLIENTES".
      * URL: localhost:8080/clientes/allclientes
      * @return List<Cliente>
      */
@@ -42,7 +42,7 @@ public class ClienteController {
     }
     
     /*
-     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTES", con el ID proporcionado 
+     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTES", con el ID proporcionado.
      * URL: localhost:8080/clientes/{id}
      * @return Cliente
      */
@@ -52,7 +52,7 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTES". ID autoincremental
+     * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTES". ID autoincremental.
      * URL: localhost:8080/clientes
      * @return Cliente (guardado)
      */
@@ -62,22 +62,23 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTES".
+     * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTES" con el objeto Cliente proporcionado
      * URL: localhost:8080/clientes/{id}
      * @return Cliente (actualizado)
      */
-    @PutMapping("/{id}")
+    @PutMapping("/upt")
     public ResponseEntity<Cliente> updatedCliente(@RequestBody Cliente cliente) {
         return ResponseEntity.ok().body(clienteService.updateCliente(cliente));
     }
 
     /*
-     * Método de solicitud PUT. Elimina un cliente en la tabla "CLIENTES"
+     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTES" con el ID proporcinado
      * URL: localhost:8080/clientes
      * @return String (Mensaje de eliminación)
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCliente(){
+    @DeleteMapping("/dlt/{id}")
+    public ResponseEntity<String> deleteClienteById(@PathVariable Integer id){
+        clienteService.deleteClienteById(id);
         return ResponseEntity.ok().body("Cliente eliminado existosamente.");
     }
 

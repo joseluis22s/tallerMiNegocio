@@ -12,20 +12,29 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service layer is where all the business logic lies
+ * Clase de servicio. Contiene lógica la de negocio sobre la entidad cliente. 
+ * Controlador accede a ella para efectuar un proceso solicitado por un usuario.
  */
-@Service
-@RequiredArgsConstructor
-@Slf4j
+@Service                                    // Define que es una clase de servicio para agrupar repositorios
+@RequiredArgsConstructor                    // Contructor para manejar dependencias
+@Slf4j                                      // Registra mensaje (logs)
 
 public class ClienteService {
 
     private final ClienteRepo clienteRepo;
-
+    
+    /*
+     * Recupera todos los clientes de la tabla "CLIENTES".
+     * @return List<Cliente>
+     */
     public List<Cliente> getAllClientes(){
         return clienteRepo.findAll();
     }
 
+    /*
+     * Recupera un cliente de la tabla "CLIENTES", con el ID proporcionado.
+     * @return Cliente
+     */
     public Cliente getClienteById(Integer id){
         Optional<Cliente> optionalCliente = clienteRepo.findById(id);
         if(optionalCliente.isPresent()){
@@ -35,12 +44,20 @@ public class ClienteService {
         return null;
     }
 
+    /*
+     * Guarda un cliente en la tabla "CLIENTES". ID autoincremental.
+     * @return Cliente (guardado)
+     */
     public Cliente saveCliente (Cliente cliente){
         Cliente savedCliente = clienteRepo.save(cliente);
         log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
         return savedCliente;
     }
 
+    /*
+     * Actualiza un cliente en la tabla "CLIENTES".
+     * @return Cliente (actualizado) | null(si no existe el registro)
+     */
     public Cliente updateCliente (Cliente cliente){        
         Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
         if(existingCliente.isPresent()){
@@ -48,11 +65,13 @@ public class ClienteService {
             log.info("Cliente con ID: {} actualizado correctamente", cliente.getId());
             return updatedCliente;
         }
-
         log.info("Cliente con ID: {} no existe", cliente.getId());
         return null;
     }
 
+    /*
+     * Elimina un cliente en la tabla "CLIENTES".
+     */
     public void deleteClienteById (Integer id){
         clienteRepo.deleteById(id);
     }
