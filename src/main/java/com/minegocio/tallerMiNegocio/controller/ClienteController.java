@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Validated                                  // Manejar los argumentos de un método
 
 /**
- * Clase controller es a la que accede el cliente (solicitudes). Realice un método en función de la URL
+ * Clase controller a la que accede el cliente (solicitudes). Realiza un método en función de la URL
  */
 
 public class ClienteController {
