@@ -39,7 +39,6 @@ public class DireccionCliente {
 
     @ManyToOne
     @JoinColumn(name="\"ID_CLIENTE\"")
-    // @Column(name="\"ID_CLIENTE\"")
-    private Integer id_cliente;
+    private Cliente cliente;
 
 }

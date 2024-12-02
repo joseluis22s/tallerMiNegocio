@@ -1,5 +1,7 @@
 package com.minegocio.tallerMiNegocio.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +28,6 @@ public class Cliente {
     @Id
     @Column(name="\"ID\"")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @OneToMany(mappedBy="CLIENTE")
     private Integer id;
 
     @Column(name="\"NUMERO_IDENTIFICACION\"")
@@ -43,5 +44,9 @@ public class Cliente {
 
     @Column(name="\"NUMERO_CELULAR\"")
     private String numero_celular;
+
+    @OneToMany(mappedBy="id")
+    private List<DireccionCliente> direccionesCliente;
+
 
 }
