@@ -52,13 +52,24 @@ public class DireccionClienteController {
     
     /*
      * Método de solicitud POST. Guarda una dirección de un cliente en la tabla "DIRECCION_CLIENTE". ID autoincremental.
-     * URL: localhost:8080/direcciones
+     * URL: localhost:8080/direcciones/{id}
      * @return DireccionCliente (guardado)
      */
-    @PostMapping("/")
-    public ResponseEntity<DireccionCliente> saveDireccionCliente(@RequestBody DireccionCliente direccionCliente) {
-        return ResponseEntity.ok().body(direccionClienteService.saveDireccionCliente(direccionCliente));
+    @PostMapping("/pst/{idCliente}")
+    public ResponseEntity<DireccionCliente> saveDireccionClienteByIdCliente(@RequestBody DireccionCliente direccionCliente, @PathVariable Integer idCliente) {
+        
+        return ResponseEntity.ok().body(direccionClienteService.saveDireccionClienteByIdCliente(direccionCliente, idCliente));
     }
+
+    // /*
+    //  * Método de solicitud POST. Guarda una dirección de un cliente en la tabla "DIRECCION_CLIENTE". ID autoincremental.
+    //  * URL: localhost:8080/direcciones
+    //  * @return DireccionCliente (guardado)
+    //  */
+    // @PostMapping("/")
+    // public ResponseEntity<DireccionCliente> saveDireccionCliente(@RequestBody DireccionCliente direccionCliente) {
+    //     return ResponseEntity.ok().body(direccionClienteService.saveDireccionCliente(direccionCliente, idCliente);
+    // }
 
     /*
      * Método de solicitud PUT. Actualiza una dirección en la tabla "DIRECCION_CLIENTE" con el objeto DireccionCliente proporcionado

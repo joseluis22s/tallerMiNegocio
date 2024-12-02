@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.minegocio.tallerMiNegocio.entity.Cliente;
 import com.minegocio.tallerMiNegocio.entity.DireccionCliente;
+import com.minegocio.tallerMiNegocio.repository.ClienteRepo;
 import com.minegocio.tallerMiNegocio.repository.DireccionClienteRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DireccionClienteService {
 
     private final DireccionClienteRepo direccionClienteRepo;
+    private final ClienteRepo clienteRepo;
 
     /*
      * Recupera todas las direcciones de clientes de la tabla "DIRECCION_CLIENTE".
@@ -41,13 +44,30 @@ public class DireccionClienteService {
 
     /*
      * Guarda una dirección de un cliente en la tabla "DIRECCION_CLIENTE". ID autoincremental.
-     * @return DireccionCliente (guardado)
+     * @return DireccionCliente (guardado)v 
      */
-    public DireccionCliente saveDireccionCliente (DireccionCliente direccionCliente){
+    public DireccionCliente saveDireccionClienteByIdCliente (DireccionCliente direccionCliente, Integer idCliente){
+        Optional<Cliente> optionalCliente = clienteRepo.findById(idCliente);
+        if(!optionalCliente.isPresent()){
+            log.info("Cliente con ID: {} no existe", idCliente);
+            return null; // TODO: VER COMO MANDAR UN STATUS DE VALOR NO ENCONTRADO
+        }
+        direccionCliente.setCliente(optionalCliente.get());
         DireccionCliente savedDireccionCliente = direccionClienteRepo.save(direccionCliente);
         log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
         return savedDireccionCliente;
     }
+
+    // public DireccionCliente saveDireccionClienteByIdCliente (DireccionCliente direccionCliente, Integer idCliente){
+    //     Optional<Cliente> optionalCliente = clienteRepo.findById(idCliente);
+    //     if(optionalCliente.isPresent()){
+    //         log.info("Cliente con ID: {} no existe", idCliente);
+    //         return null;
+    //     }
+    //     DireccionCliente savedDireccionCliente = direccionClienteRepo.save(direccionCliente);
+    //     log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
+    //     return savedDireccionCliente;
+    // }
 
     /*
      * Actualiza una direccion de un cliente en la tabla "DIRECCION_CLIENTE".
