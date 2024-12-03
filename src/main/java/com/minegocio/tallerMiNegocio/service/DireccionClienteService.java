@@ -26,7 +26,13 @@ public class DireccionClienteService {
      * @return List<DireccionCliente>
      */
     public List<DireccionCliente> getAllDireccionesCliente(){
-        return direccionClienteRepo.findAll();
+        log.info("empiezaaaaaa1\n\n");
+        List<DireccionCliente> ddd = direccionClienteRepo.findAll();
+        
+        log.info("\n\n" +  ddd.getFirst());
+        log.info("\n\nempiezaaaaaa2");
+        return  ddd;
+        // return direccionClienteRepo.findAll();
     }
 
     /*
@@ -54,6 +60,7 @@ public class DireccionClienteService {
         }
         direccionCliente.setCliente(optionalCliente.get());
         DireccionCliente savedDireccionCliente = direccionClienteRepo.save(direccionCliente);
+        log.info("\n\n\n" + savedDireccionCliente.getClass() + "\n\n\n");
         log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
         return savedDireccionCliente;
     }
