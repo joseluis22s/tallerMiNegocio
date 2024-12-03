@@ -2,7 +2,7 @@ package com.minegocio.tallerMiNegocio.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,9 +49,7 @@ public class Cliente {
     @Column(name="\"NUMERO_CELULAR\"")
     private String numero_celular;
 
-    @OneToMany(mappedBy="id", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-    @JsonManagedReference
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="cliente",cascade=CascadeType.ALL)
+    @JsonIgnoreProperties
     private List<DireccionCliente> direccionesCliente;
-
-
 }

@@ -1,6 +1,5 @@
 package com.minegocio.tallerMiNegocio.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,10 +37,9 @@ public class DireccionCliente {
 
     @Column(name="\"DIRECCION\"")
     private String direccion;
-
+    
     @ManyToOne
     @JoinColumn(name="\"ID_CLIENTE\"")
-    @JsonBackReference
     private Cliente cliente;
 
 }
