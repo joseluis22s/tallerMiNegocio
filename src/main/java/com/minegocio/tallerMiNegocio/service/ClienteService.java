@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de servicio. Contiene lógica la de negocio sobre la entidad cliente. 
+ * Clase de servicio. Contiene lógica la de negocio sobre la entidad Cliente. 
  * Controlador accede a ella para efectuar un proceso solicitado por un usuario.
  */
 @Service                                    // Define que es una clase de servicio para agrupar repositorios
@@ -33,7 +33,7 @@ public class ClienteService {
 
     /*
      * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
-     * @return Cliente
+     * @return Cliente | null
      */
     public Cliente getClienteById(Integer id){
         Optional<Cliente> optionalCliente = clienteRepo.findById(id);
@@ -41,7 +41,7 @@ public class ClienteService {
             return optionalCliente.get();
         }
         log.info("Cliente con ID: {} no existe", id);
-        return null;
+        return null; //TODO: No retornar null
     }
 
     /*
@@ -49,24 +49,22 @@ public class ClienteService {
      * @return Cliente (guardado)
      */
     public Cliente saveCliente (Cliente cliente){
-        Cliente savedCliente = clienteRepo.save(cliente);
         log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
-        return savedCliente;
+        return clienteRepo.save(cliente);
     }
 
     /*
      * Actualiza un cliente en la tabla "CLIENTE".
-     * @return Cliente (actualizado) | null(si no existe el registro)
+     * @return Cliente (actualizado) | null (si no existe el registro)
      */
     public Cliente updateCliente (Cliente cliente){        
         Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
         if(existingCliente.isPresent()){
-            Cliente updatedCliente = clienteRepo.save(cliente);
             log.info("Cliente con ID: {} actualizado correctamente", cliente.getId());
-            return updatedCliente;
+            return clienteRepo.save(cliente);
         }
         log.info("Cliente con ID: {} no existe", cliente.getId());
-        return null;
+        return null; //TODO: Ver como hacer para no retornar null
     }
 
     /*

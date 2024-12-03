@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  * Clase controller a la que accede el cliente (solicitudes). Realiza un método en función de la URL.
  */
 
-@RestController                                 // Define que la clase es un controlador para manejar un servicio
+@RestController                                 // Define que la clase es ua manejar un servicio
 @RequestMapping("/direcciones")                 // Mapea un grupo de para la API
 @RequiredArgsConstructor                        // Contructor para manejar dependencias 
 @Validated                                      // Manejar/validar los argumentos de un método

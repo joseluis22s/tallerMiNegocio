@@ -13,6 +13,10 @@ import com.minegocio.tallerMiNegocio.repository.DireccionClienteRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Clase de servicio. Contiene lógica la de negocio sobre la entidad DireccionCliente. 
+ * Controlador accede a ella para efectuar un proceso solicitado por un usuario.
+ */
 @Service                                    // Define que es una clase de servicio para agrupar repositorios
 @RequiredArgsConstructor                    // Contructor para manejar dependencias
 @Slf4j                                      // Registra mensaje (logs)
@@ -26,15 +30,11 @@ public class DireccionClienteService {
      * @return List<DireccionCliente>
      */
     public List<DireccionCliente> getAllDireccionesCliente(){
-        log.info("empiezaaaaaa1\n\n");
-        List<DireccionCliente> ddd = direccionClienteRepo.findAll();
-        log.info("\n\nempiezaaaaaa2");
-        return  ddd;
-        // return direccionClienteRepo.findAll();
+        return direccionClienteRepo.findAll();
     }
 
     /*
-     * Recupera una dirección de un cliente de la tabla "DIRECCION_CLIENTE", con el ID proporcionado.
+     * Recupera una dirección de la tabla "DIRECCION_CLIENTE", con el ID proporcionado.
      * @return DireccionCliente
      */
     public DireccionCliente getDireccionClienteById(Integer id){
@@ -47,34 +47,20 @@ public class DireccionClienteService {
     }
 
     /*
-     * Guarda una dirección de un cliente en la tabla "DIRECCION_CLIENTE". ID autoincremental.
-     * @return DireccionCliente (guardado)v 
+     * Guarda una dirección en la tabla "DIRECCION_CLIENTE". ID autoincremental.
+     * @return DireccionCliente (guardado)
      */
     public DireccionCliente saveDireccionClienteByIdCliente (DireccionCliente direccionCliente, Integer idCliente){
-        
-        
         Optional<Cliente> optionalCliente = clienteRepo.findById(idCliente);
         if(!optionalCliente.isPresent()){
             log.info("Cliente con ID: {} no existe", idCliente);
             return null; // TODO: VER COMO MANDAR UN STATUS DE VALOR NO ENCONTRADO
         }
-        direccionCliente.setCliente(optionalCliente.get());
-        DireccionCliente savedDireccionCliente = direccionClienteRepo.save(direccionCliente);
-        log.info("\n\n\n" + savedDireccionCliente.getClass() + "\n\n\n");
-        log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
-        return savedDireccionCliente;
-    }
 
-    // public DireccionCliente saveDireccionClienteByIdCliente (DireccionCliente direccionCliente, Integer idCliente){
-    //     Optional<Cliente> optionalCliente = clienteRepo.findById(idCliente);
-    //     if(optionalCliente.isPresent()){
-    //         log.info("Cliente con ID: {} no existe", idCliente);
-    //         return null;
-    //     }
-    //     DireccionCliente savedDireccionCliente = direccionClienteRepo.save(direccionCliente);
-    //     log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
-    //     return savedDireccionCliente;
-    // }
+        direccionCliente.setCliente(optionalCliente.get());
+        log.info("Dirección con ID: {} guardado satisfactoriamente", direccionCliente.getId());
+        return direccionClienteRepo.save(direccionCliente);
+    }
 
     /*
      * Actualiza una direccion de un cliente en la tabla "DIRECCION_CLIENTE".
@@ -83,9 +69,8 @@ public class DireccionClienteService {
     public DireccionCliente updateDireccionCliente (DireccionCliente direccionCliente){        
         Optional<DireccionCliente> existingDireccionCliente = direccionClienteRepo.findById(direccionCliente.getId());
         if(existingDireccionCliente.isPresent()){
-            DireccionCliente updatedDireccionCliente = direccionClienteRepo.save(direccionCliente);
             log.info("Dirección  con ID: {} actualizado correctamente", direccionCliente.getId());
-            return updatedDireccionCliente;
+            return direccionClienteRepo.save(direccionCliente);
         }
         log.info("Dirección con ID: {} no existe", direccionCliente.getId());
         return null;
