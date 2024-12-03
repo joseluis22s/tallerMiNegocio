@@ -28,8 +28,6 @@ public class DireccionClienteService {
     public List<DireccionCliente> getAllDireccionesCliente(){
         log.info("empiezaaaaaa1\n\n");
         List<DireccionCliente> ddd = direccionClienteRepo.findAll();
-        
-        log.info("\n\n" +  ddd.getFirst());
         log.info("\n\nempiezaaaaaa2");
         return  ddd;
         // return direccionClienteRepo.findAll();
