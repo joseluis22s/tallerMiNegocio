@@ -28,7 +28,8 @@ public class ClienteService {
      * @return List<Cliente>
      */
     public List<Cliente> getAllClientes(){
-        return clienteRepo.findAll();
+
+        return clienteRepo.findAll(); 
     }
 
     /*
