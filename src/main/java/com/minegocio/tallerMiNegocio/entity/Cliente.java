@@ -2,7 +2,7 @@ package com.minegocio.tallerMiNegocio.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -50,6 +50,6 @@ public class Cliente {
     private String numero_celular;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="cliente",cascade=CascadeType.ALL)
-    @JsonIgnoreProperties
+    @JsonIgnore                                                              // Evita desbordamiento en el JSON
     private List<DireccionCliente> direccionesCliente;
 }

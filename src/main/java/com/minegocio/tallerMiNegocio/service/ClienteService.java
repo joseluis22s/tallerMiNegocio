@@ -48,10 +48,19 @@ public class ClienteService {
      * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * @return Cliente (guardado)
      */
-    public Cliente saveCliente (Cliente cliente){
+    public Cliente saveClienteConDireccionMatriz (Cliente cliente){
         log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
         return clienteRepo.save(cliente);
     }
+
+    // /*
+    //  * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
+    //  * @return Cliente (guardado)
+    //  */
+    // public Cliente saveCliente (Cliente cliente){
+    //     log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
+    //     return clienteRepo.save(cliente);
+    // }
 
     /*
      * Actualiza un cliente en la tabla "CLIENTE".
