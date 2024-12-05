@@ -24,20 +24,33 @@ import lombok.NoArgsConstructor;
 @Table(name="\"DIRECCION_CLIENTE\"", schema="\"schTallerMiNegocio\"")
 public class DireccionCliente {
     
+
+    // TODO: VErificar con postman si es necesaria la notation @NonNull
+
+
     @Id
     @Column(name="\"ID\"")
+    //@Nonnull
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    //@Nonnull
     @Column(name="\"PROVINCIA\"")
     private String provincia;
 
+    //@Nonnull
     @Column(name="\"CIUDAD\"")
     private String ciudad;
 
+    //@Nonnull
     @Column(name="\"DIRECCION\"")
     private String direccion;
-    
+
+    // @Nonnull
+    @Column(name="\"ES_MATRIZ\"")
+    private Boolean esMatriz;
+
+    // @Nonnull
     @ManyToOne
     @JoinColumn(name="\"ID_CLIENTE\"")
     private Cliente cliente;

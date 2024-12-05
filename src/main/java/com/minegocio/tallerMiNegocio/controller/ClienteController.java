@@ -57,9 +57,19 @@ public class ClienteController {
      * @return Cliente (guardado)
      */
     @PostMapping("/")
-    public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente) {
-        return ResponseEntity.ok().body(clienteService.saveCliente(cliente));
+    public ResponseEntity<Cliente> saveNuevoClienteConDireccionMatriz(@RequestBody SaveClienteReq saveClienteReq) {
+        return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(saveClienteReq));
     }
+
+    // /*
+    //  * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
+    //  * URL: localhost:8080/clientes
+    //  * @return Cliente (guardado)
+    //  */
+    // @PostMapping("/")
+    // public ResponseEntity<Cliente> saveClienteConDireccionMatriz(@RequestBody Cliente cliente) {
+    //     return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(cliente, direccionCliente));
+    // }
 
     /*
      * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTE" con el objeto Cliente proporcionado

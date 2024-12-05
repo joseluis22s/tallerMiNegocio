@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.minegocio.tallerMiNegocio.entity.Cliente;
+import com.minegocio.tallerMiNegocio.modelRequest.SaveClienteReq;
 import com.minegocio.tallerMiNegocio.repository.ClienteRepo;
+import com.minegocio.tallerMiNegocio.repository.DireccionClienteRepo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ClienteService {
 
     private final ClienteRepo clienteRepo;
+    private final DireccionClienteRepo direccionClienteRepo;
     
     /*
      * Recupera todos los clientes de la tabla "CLIENTE".
@@ -49,9 +52,25 @@ public class ClienteService {
      * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * @return Cliente (guardado)
      */
-    public Cliente saveClienteConDireccionMatriz (Cliente cliente){
-        log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
-        return clienteRepo.save(cliente);
+    public Cliente saveNuevoClienteConDireccionMatriz (SaveClienteReq saveClienteReq){
+        Cliente nuevoCliente = saveClienteReq.getCliente();
+        Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
+        if(existingCliente.isPresent()){
+            // TODO: Veficar si esta bien lo de las llaves
+            log.info("Cliente '{}' con ID: {} y {}: {} ya existe.",cliente.getNombres(), 
+                                                                cliente.getId(), 
+                                                                cliente.getTipo_identificacion(), 
+                                                                cliente.getNumero_identificacion());
+            return null; // TOD0: REvisar para no devolver null, mas bien un esatdfo http
+        }
+        Cliente savedCliente = clienteRepo.save(cliente);
+        direccionClienteRepo.save(direccionCliente);
+        log.info("Cliente '{}' con ID: {} y {}: {} guardado satisfactoriamente", cliente.getNombres(), 
+                                                                                    cliente.getId(),
+                                                                                    cliente.getTipo_identificacion(),
+                                                                                    cliente.getNumero_identificacion());
+        // log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
+        return savedCliente ;
     }
 
     // /*
