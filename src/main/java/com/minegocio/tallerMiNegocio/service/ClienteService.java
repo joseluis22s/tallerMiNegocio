@@ -1,6 +1,7 @@
 package com.minegocio.tallerMiNegocio.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -100,12 +101,11 @@ public class ClienteService {
      * Actualiza un cliente en la tabla "CLIENTE".
      * @return Cliente (actualizado) | null (si no existe el registro en base al número de identificación)
      */
-    public Cliente updateCliente (Cliente cliente){     
-
+    public Cliente updateCliente (Cliente cliente){
         List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
         if(!existingClienteList.isEmpty()){
-            Cliente updtatedCliente = existingClienteList.getFirst();
-            clienteRepo.save(updtatedCliente);
+            cliente.setId(existingClienteList.getFirst().getId());
+            Cliente updtatedCliente = clienteRepo.save(cliente);
             log.info("Cliente con NÚMERO DE IDENTIFICACIÓN: {} actualizado correctamente.", cliente.getNumeroIdentificacion());
             return updtatedCliente;
         }
@@ -114,6 +114,19 @@ public class ClienteService {
         return null;
     }
 
+    /*
+     * Funcionalidad: Eliminar un cliente en base a su ID.
+     * Elimina un cliente en la tabla "CLIENTE".
+     */
+    public void deleteClienteById (int id){
+        Optional<Cliente> cliente = clienteRepo.findById(id);
+        if(cliente.isPresent()){
+            clienteRepo.deleteById(cliente.get().getId());
+            log.info("Cliente '{}' con NÚMERO DE IDENTIFICACIÓN: {} ha sido eliminado.",cliente.get().getNombres(),  
+                                                                cliente.get().getNumeroIdentificacion());
+        }
+    }
+    
     /*
      * Funcionalidad: Eliminar un cliente en base a su número de identificación.
      * Elimina un cliente en la tabla "CLIENTE".

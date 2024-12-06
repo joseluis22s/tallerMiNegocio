@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minegocio.tallerMiNegocio.entity.Cliente;
@@ -34,7 +35,7 @@ public class ClienteController {
 
     /*
      * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTE", con el número de identificación proporcionado.
-     * URL: localhost:8080/clientes/cliente
+     * URL: localhost:8080/clientes/cliente/{numeroIdentificacion}
      * @return Cliente
      */
     @GetMapping("/cliente/{numeroIdentificacion}")
@@ -44,11 +45,11 @@ public class ClienteController {
     
     /*
      * Método de solicitud GET. Recupera una lista de clientes de la tabla "CLIENTE", con el nombre proporcionado.
-     * URL: localhost:8080/clientes/{id}
+     * URL: localhost:8080/clientes/nombre?nombres={<valor_variable_nombres>}
      * @return Cliente
      */
-    @GetMapping("/clientes/{nombres}")
-    public ResponseEntity<List<Cliente>> getClienteById(@PathVariable String nombres) {
+    @GetMapping("/nombre")
+    public ResponseEntity<List<Cliente>> getClienteByNombres(@RequestParam String nombres) {
         return ResponseEntity.ok().body(clienteService.getClienteByNombres(nombres));
     }
 
@@ -74,11 +75,21 @@ public class ClienteController {
     }
 
     /*
-     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTE" con el ID proporcinado
-     * URL: localhost:8080/clientes/dlt/{id}"
+     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTE" con el id proporcinado.
+     * URL: localhost:8080/clientes/dltid/{id}"
      * @return String (Mensaje de eliminación)
      */
-    @DeleteMapping("/dlt/{numeroIdentificacion}")
+    @DeleteMapping("/dltid/{id}")
+    public ResponseEntity<String> deleteClienteByNumeroIdentificacion(@PathVariable int id){
+        clienteService.deleteClienteById(id);
+        return ResponseEntity.ok().body("Cliente eliminado existosamente.");
+    }
+    /*
+     * Método de solicitud DELETE. Elimina un cliente en la tabla "CLIENTE" con el número de identidicación proporcinado.
+     * URL: localhost:8080/clientes/dltnum/{numeroIdentificacion}"
+     * @return String (Mensaje de eliminación)
+     */
+    @DeleteMapping("/dltnum/{numeroIdentificacion}")
     public ResponseEntity<String> deleteClienteByNumeroIdentificacion(@PathVariable String numeroIdentificacion){
         clienteService.deleteClienteByNumeroIdentificacion(numeroIdentificacion);
         return ResponseEntity.ok().body("Cliente eliminado existosamente.");
