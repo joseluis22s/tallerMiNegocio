@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minegocio.tallerMiNegocio.entity.Cliente;
+import com.minegocio.tallerMiNegocio.modelRequest.ClienteDireccionMatrizModelReq;
 import com.minegocio.tallerMiNegocio.service.ClienteService;
 
 import lombok.RequiredArgsConstructor;
@@ -53,12 +54,12 @@ public class ClienteController {
 
     /*
      * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
-     * URL: localhost:8080/clientes
+     * URL: localhost:8080/clientes/pst
      * @return Cliente (guardado)
      */
-    @PostMapping("/")
-    public ResponseEntity<Cliente> saveNuevoClienteConDireccionMatriz(@RequestBody SaveClienteReq saveClienteReq) {
-        return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(saveClienteReq));
+    @PostMapping("/pst")
+    public ResponseEntity<Cliente> saveNuevoClienteConDireccionMatriz(@RequestBody ClienteDireccionMatrizModelReq clienteDireccionMatrizModelReq) {
+        return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(clienteDireccionMatrizModelReq));
     }
 
     // /*

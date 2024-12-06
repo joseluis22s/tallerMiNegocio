@@ -26,19 +26,19 @@ import lombok.NoArgsConstructor;
 @Data                               // Genera getters y setter
 @Entity                             // Define a una clase como una entidad de la BD
 @Table(name = "\"CLIENTE\"", schema="\"schTallerMiNegocio\"")
-
 public class Cliente {
 
     @Id
     @Column(name="\"ID\"")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name="\"NUMERO_IDENTIFICACION\"")
-    private String numero_identificacion;
+    private String numeroIdentificacion;
 
     @Column(name="\"TIPO_IDENTIFICACION\"")
-    private String tipo_identificacion;
+    private String tipoIdentificacion;
 
     @Column(name="\"NOMBRES\"")
     private String nombres;
@@ -47,9 +47,11 @@ public class Cliente {
     private String correo;
 
     @Column(name="\"NUMERO_CELULAR\"")
-    private String numero_celular;
+    private String numeroCelular;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="cliente",cascade=CascadeType.ALL)
-    @JsonIgnore                                                              // Evita desbordamiento en el JSON
+    @OneToMany(fetch=FetchType.LAZY,
+               mappedBy="cliente",
+               cascade=CascadeType.ALL)
+    @JsonIgnore                                                        // Evita desbordamiento en el JSON
     private List<DireccionCliente> direccionesCliente;
 }

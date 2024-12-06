@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.minegocio.tallerMiNegocio.entity.Cliente;
-import com.minegocio.tallerMiNegocio.modelRequest.SaveClienteReq;
+import com.minegocio.tallerMiNegocio.entity.DireccionCliente;
+import com.minegocio.tallerMiNegocio.modelRequest.ClienteDireccionMatrizModelReq;
 import com.minegocio.tallerMiNegocio.repository.ClienteRepo;
 import com.minegocio.tallerMiNegocio.repository.DireccionClienteRepo;
 
@@ -52,23 +53,32 @@ public class ClienteService {
      * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * @return Cliente (guardado)
      */
-    public Cliente saveNuevoClienteConDireccionMatriz (SaveClienteReq saveClienteReq){
-        Cliente nuevoCliente = saveClienteReq.getCliente();
-        Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
-        if(existingCliente.isPresent()){
+    public Cliente saveNuevoClienteConDireccionMatriz (ClienteDireccionMatrizModelReq clienteDireccionMatrizModelReq){
+        
+        Cliente cliente = clienteDireccionMatrizModelReq.getCliente();
+
+        List<Cliente> existingCliente = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
+        
+        
+        if(!existingCliente.isEmpty()){
             // TODO: Veficar si esta bien lo de las llaves
             log.info("Cliente '{}' con ID: {} y {}: {} ya existe.",cliente.getNombres(), 
                                                                 cliente.getId(), 
-                                                                cliente.getTipo_identificacion(), 
-                                                                cliente.getNumero_identificacion());
+                                                                cliente.getTipoIdentificacion(), 
+                                                                cliente.getNumeroIdentificacion());
             return null; // TOD0: REvisar para no devolver null, mas bien un esatdfo http
         }
+        DireccionCliente nuevaDireccionCliente = clienteDireccionMatrizModelReq.getDireccionCliente();
+        nuevaDireccionCliente.setCliente(cliente);
         Cliente savedCliente = clienteRepo.save(cliente);
-        direccionClienteRepo.save(direccionCliente);
-        log.info("Cliente '{}' con ID: {} y {}: {} guardado satisfactoriamente", cliente.getNombres(), 
+        log.info("\n\n\nEMPIEZA\n\n\n");
+        log.info("\n\n\nINICIO.Imprime el onjeto nuevaDireccionCliente\n\n\n" + nuevaDireccionCliente + "\n\n\nFIN.Imprime el onjeto nuevaDireccionCliente\n\n\n");
+        direccionClienteRepo.save(nuevaDireccionCliente);
+
+        log.info("Cliente '{}' con ID: {} y {}: {} y su direccion guardado satisfactoriamente", cliente.getNombres(), 
                                                                                     cliente.getId(),
-                                                                                    cliente.getTipo_identificacion(),
-                                                                                    cliente.getNumero_identificacion());
+                                                                                    cliente.getTipoIdentificacion(),
+                                                                                    cliente.getNumeroIdentificacion());
         // log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
         return savedCliente ;
     }
