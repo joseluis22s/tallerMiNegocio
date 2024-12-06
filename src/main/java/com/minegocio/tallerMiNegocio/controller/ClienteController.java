@@ -33,17 +33,17 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     /*
-     * Método de solicitud GET. Recupera todos los clientes de la tabla "CLIENTE".
-     * URL: localhost:8080/clientes/allclientes
-     * @return List<Cliente>
+     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTE", con el número de identificación proporcionado.
+     * URL: localhost:8080/clientes/cliente
+     * @return Cliente
      */
-    @GetMapping("/allclientes")
-    public ResponseEntity<List<Cliente>> getAllClientes(){
-        return ResponseEntity.ok().body(clienteService.getAllClientes());
+    @GetMapping("/cliente/{numeroIdentificacion}")
+    public ResponseEntity<Cliente> getClienteByNumeroIdentificacion(@PathVariable String numeroIdentificacion){
+        return ResponseEntity.ok().body(clienteService.getClienteByNumeroIdentificacion(numeroIdentificacion));
     }
     
     /*
-     * Método de solicitud GET. Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
+     * Método de solicitud GET. Recupera una lista de clientes de la tabla "CLIENTE", con el nombre proporcionado.
      * URL: localhost:8080/clientes/{id}
      * @return Cliente
      */

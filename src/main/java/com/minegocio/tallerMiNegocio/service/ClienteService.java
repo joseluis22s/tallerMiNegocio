@@ -26,73 +26,62 @@ public class ClienteService {
 
     private final ClienteRepo clienteRepo;
     private final DireccionClienteRepo direccionClienteRepo;
-    
-    /*
-     * Recupera todos los clientes de la tabla "CLIENTE".
-     * @return List<Cliente>
-     */
-    public List<Cliente> getAllClientes(){
-        return clienteRepo.findAll(); 
-    }
 
     /*
-     * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
-     * @return Cliente | null
+     * Funcionalidad: Obtener un cliente en base a su número de identificación.
+     * Recupera un cliente de la tabla "CLIENTE", con el NUMERO DE IDETIFICACIÓN proporcionado.
+     * @return Cliente | null (Al no existir un registro)
      */
-    /////TODO: Reviar aqui
     public Cliente getClienteByNumeroIdentificacion(String numeroIdentificacion){
         List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(numeroIdentificacion);
         if(existingClienteList.isEmpty()){
             log.info("Cliente con número de identificación: {} no existe", numeroIdentificacion);
-            return null; // TODO: vER COMO HACER PARA QUE NO SEA NULL
+            // TODO: Revisar para que retorno algo diferente a "null".
+            return null; 
         }
         Cliente existingCliente = existingClienteList.getFirst();
         return existingCliente; 
     }
+
     /*
-     * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
-     * @return Cliente | null
+     * Funcionalidad: Obtener un listado de clientes en base a un nombre.
+     * Recupera una lista de clientes de la tabla "CLIENTE", con un nombre proporcionado proporcionado.
+     * @return List<Cliente> | null (Al no existir registros)
      */
-    /////TODO: Reviar aqui
     public List<Cliente> getClienteByNombres(String nombres){
         List<Cliente> existingClienteList = clienteRepo.findByNombres(nombres);
         if(existingClienteList.isEmpty()){
             log.info("Clientes con nombre: {} no existe", nombres);
-            return null; // TODO: vER COMO HACER PARA QUE NO SEA NULL
+            // TODO: Revisar para que retorno algo diferente a "null".
+            return null;
         }
         return existingClienteList; 
     }
-    // /*
-    //  * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
-    //  * @return Cliente | null
-    //  */
-    // public Cliente getClienteById(Integer id){
-    //     Optional<Cliente> optionalCliente = clienteRepo.findById(id);
-    //     if(optionalCliente.isPresent()){
-    //         log.info("Cliente con ID: {} no existe", optionalCliente.get());
-    //         return optionalCliente.get();
-    //     }
-    //     log.info("Cliente con ID: {} no existe", id);
-    //     return null; //TODO: No retornar null
-    // }
 
     /*
+     * Funcionalidad: Crear un nuevo cliente con la dirección matriz.
+     *                En caso de recibir "false" en la propiedad "esMatriz", aqui se convierte en "true", para
+     *                definir que el nuevo cliente se guarda obligatoriamente con una dirección matriz.
      * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
-     * @return Cliente (guardado)
+     * Guarda una dirección cliente en la tabla "DIRECCION_CLIENTE" como su dirección matriz. ID autoincremental.
+     * @return Cliente (guardado) | null (Al existir un cliente)
      */
     public Cliente saveNuevoClienteConDireccionMatriz (ClienteDireccionMatrizModelReq clienteDireccionMatrizModelReq){
         Cliente cliente = clienteDireccionMatrizModelReq.getCliente();
         List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
 
         if(!existingClienteList.isEmpty()){
-            // TODO: Veficar si esta bien lo de las llaves
             log.info("Cliente '{}' con ID: {} y {}: {} ya existe.",cliente.getNombres(), 
                                                                 cliente.getId(), 
                                                                 cliente.getTipoIdentificacion(), 
                                                                 cliente.getNumeroIdentificacion());
-            return null; // TOD0: REvisar para no devolver null, mas bien un esatdfo http
+            return null; // TOD0: Revisar para no devolver null, mas bien un esatdfo http
         }
         DireccionCliente nuevaDireccionCliente = clienteDireccionMatrizModelReq.getDireccionCliente();
+
+        boolean esMatriz = nuevaDireccionCliente.getEsMatriz();
+        esMatriz = esMatriz ? esMatriz : true;
+        nuevaDireccionCliente.setEsMatriz(esMatriz);
         nuevaDireccionCliente.setCliente(cliente);
         Cliente savedCliente = clienteRepo.save(cliente);
         
