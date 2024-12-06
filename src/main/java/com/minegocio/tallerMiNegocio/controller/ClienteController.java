@@ -47,13 +47,14 @@ public class ClienteController {
      * URL: localhost:8080/clientes/{id}
      * @return Cliente
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(clienteService.getClienteById(id));
+    @GetMapping("/clientes/{nombres}")
+    public ResponseEntity<List<Cliente>> getClienteById(@PathVariable String nombres) {
+        return ResponseEntity.ok().body(clienteService.getClienteByNombres(nombres));
     }
 
     /*
-     * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
+     * Método de solicitud POST. Guarda un nuevo cliente en la tabla "CLIENTE". ID autoincremental.
+     *                           Guarda la dirección del nuevo cliente como dirección matriz. ID autoincremental.
      * URL: localhost:8080/clientes/pst
      * @return Cliente (guardado)
      */
@@ -61,16 +62,6 @@ public class ClienteController {
     public ResponseEntity<Cliente> saveNuevoClienteConDireccionMatriz(@RequestBody ClienteDireccionMatrizModelReq clienteDireccionMatrizModelReq) {
         return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(clienteDireccionMatrizModelReq));
     }
-
-    // /*
-    //  * Método de solicitud POST. Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
-    //  * URL: localhost:8080/clientes
-    //  * @return Cliente (guardado)
-    //  */
-    // @PostMapping("/")
-    // public ResponseEntity<Cliente> saveClienteConDireccionMatriz(@RequestBody Cliente cliente) {
-    //     return ResponseEntity.ok().body(clienteService.saveNuevoClienteConDireccionMatriz(cliente, direccionCliente));
-    // }
 
     /*
      * Método de solicitud PUT. Actualiza un cliente en la tabla "CLIENTE" con el objeto Cliente proporcionado
@@ -87,9 +78,9 @@ public class ClienteController {
      * URL: localhost:8080/clientes/dlt/{id}"
      * @return String (Mensaje de eliminación)
      */
-    @DeleteMapping("/dlt/{id}")
-    public ResponseEntity<String> deleteClienteById(@PathVariable Integer id){
-        clienteService.deleteClienteById(id);
+    @DeleteMapping("/dlt/{numeroIdentificacion}")
+    public ResponseEntity<String> deleteClienteByNumeroIdentificacion(@PathVariable String numeroIdentificacion){
+        clienteService.deleteClienteByNumeroIdentificacion(numeroIdentificacion);
         return ResponseEntity.ok().body("Cliente eliminado existosamente.");
     }
 

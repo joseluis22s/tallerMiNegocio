@@ -1,7 +1,6 @@
 package com.minegocio.tallerMiNegocio.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class ClienteService {
     public Cliente getClienteByNumeroIdentificacion(String numeroIdentificacion){
         List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(numeroIdentificacion);
         if(existingClienteList.isEmpty()){
-            log.info("Cliente con número de identificación: {} no existe", numeroIdentificacion);
+            log.info("Cliente con número de identificación: {} no existe.", numeroIdentificacion);
             // TODO: Revisar para que retorno algo diferente a "null".
             return null; 
         }
@@ -51,7 +50,7 @@ public class ClienteService {
     public List<Cliente> getClienteByNombres(String nombres){
         List<Cliente> existingClienteList = clienteRepo.findByNombres(nombres);
         if(existingClienteList.isEmpty()){
-            log.info("Clientes con nombre: {} no existe", nombres);
+            log.info("Clientes con nombre: {} no existe.", nombres);
             // TODO: Revisar para que retorno algo diferente a "null".
             return null;
         }
@@ -62,7 +61,7 @@ public class ClienteService {
      * Funcionalidad: Crear un nuevo cliente con la dirección matriz.
      *                En caso de recibir "false" en la propiedad "esMatriz", aqui se convierte en "true", para
      *                definir que el nuevo cliente se guarda obligatoriamente con una dirección matriz.
-     * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
+     * Guarda un nuevo cliente en la tabla "CLIENTE". ID autoincremental.
      * Guarda una dirección cliente en la tabla "DIRECCION_CLIENTE" como su dirección matriz. ID autoincremental.
      * @return Cliente (guardado) | null (Al existir un cliente)
      */
@@ -75,7 +74,8 @@ public class ClienteService {
                                                                 cliente.getId(), 
                                                                 cliente.getTipoIdentificacion(), 
                                                                 cliente.getNumeroIdentificacion());
-            return null; // TOD0: Revisar para no devolver null, mas bien un esatdfo http
+            // TOD0: Revisar para no devolver null.
+            return null;
         }
         DireccionCliente nuevaDireccionCliente = clienteDireccionMatrizModelReq.getDireccionCliente();
 
@@ -83,34 +83,48 @@ public class ClienteService {
         esMatriz = esMatriz ? esMatriz : true;
         nuevaDireccionCliente.setEsMatriz(esMatriz);
         nuevaDireccionCliente.setCliente(cliente);
+
         Cliente savedCliente = clienteRepo.save(cliente);
-        
         direccionClienteRepo.save(nuevaDireccionCliente);
-        log.info("Cliente '{}' con ID: {} y {}: {} y su direccion guardado satisfactoriamente", cliente.getNombres(), 
-                                                                                    cliente.getId(),
-                                                                                    cliente.getTipoIdentificacion(),
-                                                                                    cliente.getNumeroIdentificacion());
+
+        log.info("Cliente '{}' con ID: {} y {}: {} y su direccion guardado satisfactoriamente.",
+                    cliente.getNombres(), 
+                    cliente.getId(),
+                    cliente.getTipoIdentificacion(),
+                    cliente.getNumeroIdentificacion());
         return savedCliente ;
     }
 
     /*
+     * Funcionalidad: Editar los datos del cliente en función del número de identificación.
      * Actualiza un cliente en la tabla "CLIENTE".
-     * @return Cliente (actualizado) | null (si no existe el registro)
+     * @return Cliente (actualizado) | null (si no existe el registro en base al número de identificación)
      */
-    public Cliente updateCliente (Cliente cliente){        
-        Optional<Cliente> existingCliente = clienteRepo.findById(cliente.getId());
-        if(existingCliente.isPresent()){
-            log.info("Cliente con ID: {} actualizado correctamente", cliente.getId());
-            return clienteRepo.save(cliente);
+    public Cliente updateCliente (Cliente cliente){     
+
+        List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
+        if(!existingClienteList.isEmpty()){
+            Cliente updtatedCliente = existingClienteList.getFirst();
+            clienteRepo.save(updtatedCliente);
+            log.info("Cliente con NÚMERO DE IDENTIFICACIÓN: {} actualizado correctamente.", cliente.getNumeroIdentificacion());
+            return updtatedCliente;
         }
-        log.info("Cliente con ID: {} no existe", cliente.getId());
-        return null; //TODO: Ver como hacer para no retornar null
+        log.info("Cliente con NÚMERO DE IDENTIFICACIÓN: {} no existe.", cliente.getNumeroIdentificacion());
+        // TOD0: Revisar para no devolver null.
+        return null;
     }
 
     /*
+     * Funcionalidad: Eliminar un cliente en base a su número de identificación.
      * Elimina un cliente en la tabla "CLIENTE".
      */
-    public void deleteClienteById (Integer id){
-        clienteRepo.deleteById(id);
+    public void deleteClienteByNumeroIdentificacion (String numeroIdentificacion){
+        List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(numeroIdentificacion);
+        if(!existingClienteList.isEmpty()){
+            Cliente cliente = existingClienteList.getFirst();
+            clienteRepo.deleteById(cliente.getId());
+            log.info("Cliente '{}' con NÚMERO DE IDENTIFICACIÓN: {} ha sido eliminado.",cliente.getNombres(),  
+                                                                cliente.getNumeroIdentificacion());
+        }
     }
 }
