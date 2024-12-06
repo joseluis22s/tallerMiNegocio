@@ -32,7 +32,6 @@ public class ClienteService {
      * @return List<Cliente>
      */
     public List<Cliente> getAllClientes(){
-
         return clienteRepo.findAll(); 
     }
 
@@ -40,27 +39,52 @@ public class ClienteService {
      * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
      * @return Cliente | null
      */
-    public Cliente getClienteById(Integer id){
-        Optional<Cliente> optionalCliente = clienteRepo.findById(id);
-        if(optionalCliente.isPresent()){
-            return optionalCliente.get();
+    /////TODO: Reviar aqui
+    public Cliente getClienteByNumeroIdentificacion(String numeroIdentificacion){
+        List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(numeroIdentificacion);
+        if(existingClienteList.isEmpty()){
+            log.info("Cliente con número de identificación: {} no existe", numeroIdentificacion);
+            return null; // TODO: vER COMO HACER PARA QUE NO SEA NULL
         }
-        log.info("Cliente con ID: {} no existe", id);
-        return null; //TODO: No retornar null
+        Cliente existingCliente = existingClienteList.getFirst();
+        return existingCliente; 
     }
+    /*
+     * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
+     * @return Cliente | null
+     */
+    /////TODO: Reviar aqui
+    public List<Cliente> getClienteByNombres(String nombres){
+        List<Cliente> existingClienteList = clienteRepo.findByNombres(nombres);
+        if(existingClienteList.isEmpty()){
+            log.info("Clientes con nombre: {} no existe", nombres);
+            return null; // TODO: vER COMO HACER PARA QUE NO SEA NULL
+        }
+        return existingClienteList; 
+    }
+    // /*
+    //  * Recupera un cliente de la tabla "CLIENTE", con el ID proporcionado.
+    //  * @return Cliente | null
+    //  */
+    // public Cliente getClienteById(Integer id){
+    //     Optional<Cliente> optionalCliente = clienteRepo.findById(id);
+    //     if(optionalCliente.isPresent()){
+    //         log.info("Cliente con ID: {} no existe", optionalCliente.get());
+    //         return optionalCliente.get();
+    //     }
+    //     log.info("Cliente con ID: {} no existe", id);
+    //     return null; //TODO: No retornar null
+    // }
 
     /*
      * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
      * @return Cliente (guardado)
      */
     public Cliente saveNuevoClienteConDireccionMatriz (ClienteDireccionMatrizModelReq clienteDireccionMatrizModelReq){
-        
         Cliente cliente = clienteDireccionMatrizModelReq.getCliente();
+        List<Cliente> existingClienteList = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
 
-        List<Cliente> existingCliente = clienteRepo.findByNumeroIdentificacion(cliente.getNumeroIdentificacion());
-        
-        
-        if(!existingCliente.isEmpty()){
+        if(!existingClienteList.isEmpty()){
             // TODO: Veficar si esta bien lo de las llaves
             log.info("Cliente '{}' con ID: {} y {}: {} ya existe.",cliente.getNombres(), 
                                                                 cliente.getId(), 
@@ -71,26 +95,14 @@ public class ClienteService {
         DireccionCliente nuevaDireccionCliente = clienteDireccionMatrizModelReq.getDireccionCliente();
         nuevaDireccionCliente.setCliente(cliente);
         Cliente savedCliente = clienteRepo.save(cliente);
-        log.info("\n\n\nEMPIEZA\n\n\n");
-        log.info("\n\n\nINICIO.Imprime el onjeto nuevaDireccionCliente\n\n\n" + nuevaDireccionCliente + "\n\n\nFIN.Imprime el onjeto nuevaDireccionCliente\n\n\n");
+        
         direccionClienteRepo.save(nuevaDireccionCliente);
-
         log.info("Cliente '{}' con ID: {} y {}: {} y su direccion guardado satisfactoriamente", cliente.getNombres(), 
                                                                                     cliente.getId(),
                                                                                     cliente.getTipoIdentificacion(),
                                                                                     cliente.getNumeroIdentificacion());
-        // log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
         return savedCliente ;
     }
-
-    // /*
-    //  * Guarda un cliente en la tabla "CLIENTE". ID autoincremental.
-    //  * @return Cliente (guardado)
-    //  */
-    // public Cliente saveCliente (Cliente cliente){
-    //     log.info("Cliente con ID: {} guardado satisfactoriamente", cliente.getId());
-    //     return clienteRepo.save(cliente);
-    // }
 
     /*
      * Actualiza un cliente en la tabla "CLIENTE".

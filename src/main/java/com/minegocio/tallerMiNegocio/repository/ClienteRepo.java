@@ -14,7 +14,6 @@ import com.minegocio.tallerMiNegocio.entity.Cliente;
   
 public interface ClienteRepo extends JpaRepository<Cliente, Integer>{
 
-    // @Query(value="SELECT c FROM Cliente c WHERE e.numeroIdentificacion = :numeroIdentificacion", nativeQuery=true)
-    // List<Cliente> findByNumeroIdentificacion(@Param("numero_identificacion") String numeroIdentificacion);
     List<Cliente> findByNumeroIdentificacion(String numeroIdentificacion);
+    List<Cliente> findByNombres(String nombres);
 }
