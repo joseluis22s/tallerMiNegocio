@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
  * Clase entity que representa la tabla "CLIENTE" de la BD
  */
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data                               // Genera getters y setter
-@Entity                             // Define a una clase como una entidad de la BD
+@NoArgsConstructor                  // Genera constructor sin argumentos. Requerido por @Entity y @AllArgsContructor, debido a JPA/Hibernate, que lo necesita.
+@AllArgsConstructor                 // Genera constructor con parametro, que son los campos de la clase. Inicializar
+@Data                               // Genera getters y setters.
+@Entity                             // Define a una clase como una entidad de la BD.
 @Table(name = "\"CLIENTE\"", schema="\"schTallerMiNegocio\"")
 public class Cliente {
 
